@@ -1,0 +1,84 @@
+@startuml
+title Diagrama Casos de Uso
+left to right direction
+skinparam actorStyle awesome
+
+header
+<font color=red>Obs.:</font>
+Em desenvolvimento.
+endheader
+
+actor "Consumidor" as c
+actor "Moderador/Admin" as m
+
+rectangle Cursos {
+  usecase "Adicionar curso" as uc1
+  usecase "Listar cursos" as uc2
+  usecase "Buscar curso" as uc3
+  usecase "Avaliar curso" as uc4
+  usecase "Marcar curso como favorito" as uc5
+  usecase "Listar cursos favoritos" as uc6
+  usecase "Publicar curso" as uc7
+  usecase "Recusar curso" as uc8
+  usecase "Remover curso" as uc9
+  usecase "Verificar se usuário\nestá autenticado" as uc12
+}
+
+c -- uc1
+c -- uc2
+c -- uc3
+c -- uc4
+c -- uc5
+c -- uc6
+m --|> c
+m -- uc7
+m -- uc8
+m -- uc9
+uc1 ..> uc12: <<include>>
+uc4 ..> uc12: <<include>>
+uc5 ..> uc12: <<include>>
+uc6 ..> uc12: <<include>>
+uc7 ..> uc12: <<include>>
+uc8 ..> uc12: <<include>>
+uc9 ..> uc12: <<include>>
+
+footer 02.08.2024
+@enduml
+
+'https://www.plantuml.com/plantuml/umla/JS-n2i9040JGVhzYI9_2f9T0r5e4Fs2vxCN3U0TxcqB4VpS9ejSDl9s1xRAnsloOQ19li0GDuyqm11Ld8KLYPqbHdL8Qq6kmu2fmXdUqNd0S9y55bfbPEHfU1CnP76T1TMJ3MjmQrtvNsfcVy4bBRqe_Q8ZtBxJq9kzGr_jjvHURVsofapWiZtm0
+
+---
+
+@startuml
+title Diagrama Casos de Uso
+left to right direction
+skinparam actorStyle awesome
+
+header
+<font color=red>Obs.:</font>
+Em desenvolvimento.
+endheader
+
+actor "Usuário" as u
+actor "Administrador" as a
+
+rectangle Usuário {
+  usecase "Entrar com Google" as uc1
+  usecase "Sair da conta (deslogar)" as uc2
+  usecase "Adicionar moderador" as uc3
+  usecase "Remover moderador" as uc4
+  usecase "Verificar se usuário já existe" as uc6
+  usecase "Inserir usuário" as uc5
+}
+
+u -- uc1
+u -- uc2
+a -- uc3
+a -- uc4
+uc1 ..> uc6: <<include>>
+uc5 <.right. uc6: <<extends>>
+
+footer 02.08.2024
+@enduml
+
+'https://www.plantuml.com/plantuml/uml/SoWkIImgAStDuR8gBKujibBGrRLJq0WjJbL8JWGIXffmSMHX8qqkXzIy590s0000
