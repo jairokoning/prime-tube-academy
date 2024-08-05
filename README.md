@@ -7,6 +7,59 @@
 
 ![usecase](https://www.plantuml.com/plantuml/png/PP71RjH038RlVWfhJt1eMD85eIf4HL0XJaXKvMuotgqXCqOUPob2F4oVfI-6Txkf8d5p_7_-zKLpMPtCfpo2Yu-C7uHsHfdmFLMjc1XlgiB8MqTNDDdTEYOn7boqGFqXvIS5ZpIushN_ZWhwnLKp0zmo9JRejbeS1ntLtXgd_lEtsbnqBmxR7guo9gvSzZhk9NDnRO1BEft2iHPNDtLwk3VH5LB5QTw-IrcAL3TAQiU800vgL7RXCH_X7q2SAWzK6LTN9NWBdOmVLODxx1nUBg5h4iD4GHKdV1Q6e-x8df_OTi66XGoY9Jgp9dvo2UnyYNtXh7l-7zeieQziifKXkk9hcls_FzmZtqdrsVNrykPJgN5bJ_Y9UGL_0IOyEplyspoqG8_3-Jni869iclvGUu5T9sKOfyHz3z61NNDyycPE-Swvf1efR5MT3TTjitxJjEjs0vSHJNdy1m00)
 
+### Entidades de domínio
+```mermaid
+---
+title: (Em desenvolvimento...)
+---
+classDiagram
+  class Course {
+    id String
+    title String
+    description String
+    url String
+    status String
+    year Number
+    channel String
+    added_by String
+    add()
+    publish()
+    remove()
+  }
+
+  class Tag {
+    id String
+    name String
+  }
+
+  class User {
+    id String
+    name String
+    email String
+    token String
+    create()
+  }
+
+  class Consumer {
+
+  }
+
+  class Moderator {
+
+  }
+
+  class Administrator {
+    addModerator()
+    removeModerator
+  }
+
+  Course o-- Tag
+  Course ..> User
+  User <|-- Consumer
+  User <|-- Moderator
+  User <|-- Administrator
+```
+
 This is an official starter Turborepo.
 
 ## Using this example
