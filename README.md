@@ -1,17 +1,21 @@
-# Turborepo starter
+# ▶️ Prime Tube Academy
 
-## Documentação UML
+**🔧 Em desenvolvimento 🧩**
+Projeto full-stack (Node, Nest, React, Next) que reúne os melhores cursos de desenvolvimento de software e tecnologia disponíveis no Youtube, facilitando a busca de forma organizada.
+
+## 📑 Documentação UML
+**⚠️ Sujeito a atualizações ⚠️**
 
 ### Casos de Uso
 ![usecase](https://www.plantuml.com/plantuml/png/TP31RXCn48RlynIZtBiDsoHDgh1g2ToeG20uSN7jIMfXUv37NeI0X-cpzCMwkwgZJQIz_Pdlyp-JlPMaOihUGRB94RwtwX2LLxXJmeA6y9imEDedJ8pH7XuJ6Xj99yi1vASDlrJdezA9uzVqnn6gtoJi2U2HbA48sps7X9eTnxUHJFFfGQgRxMK_RU23HqD2eMNNMayXSGKKpEjJ66fnjkCWsLl3SOPAK9VvFNUMwiQNTyRRC40Fq9-dmi4Hxd8K5lmBY5b8Ao6StHchBGSLKVTqU9Jrcx7oqKegN5w5UYoyowBF2gvEThJAsJDXCHRkLJmMe6RFk5SjHvkAlPoyfvZ7orPZzND-SFRyjkknyOLqbZDXVIfuRkbKs8o5xnJjVbWYr4tpyrEq_2EGfESdL3bHI1qrnqzRmty0ZHSN_OyIwXAkIbYKi2nX1RuB_nhKG-Z_IGdh4ZRGbM9LDSEc6znkRT0k6seQw3edoNAIh2R9zIHPJvBD184zSwA8yxgQhwjwNY_WbeB9thq0)
 
 ![usecase](https://www.plantuml.com/plantuml/png/PP71RjH038RlVWfhJt1eMD85eIf4HL0XJaXKvMuotgqXCqOUPob2F4oVfI-6Txkf8d5p_7_-zKLpMPtCfpo2Yu-C7uHsHfdmFLMjc1XlgiB8MqTNDDdTEYOn7boqGFqXvIS5ZpIushN_ZWhwnLKp0zmo9JRejbeS1ntLtXgd_lEtsbnqBmxR7guo9gvSzZhk9NDnRO1BEft2iHPNDtLwk3VH5LB5QTw-IrcAL3TAQiU800vgL7RXCH_X7q2SAWzK6LTN9NWBdOmVLODxx1nUBg5h4iD4GHKdV1Q6e-x8df_OTi66XGoY9Jgp9dvo2UnyYNtXh7l-7zeieQziifKXkk9hcls_FzmZtqdrsVNrykPJgN5bJ_Y9UGL_0IOyEplyspoqG8_3-Jni869iclvGUu5T9sKOfyHz3z61NNDyycPE-Swvf1efR5MT3TTjitxJjEjs0vSHJNdy1m00)
 
-### Entidades de domínio
+### Diagrama de classes
+
+**Entidades de domínio**
+
 ```mermaid
----
-title: (Em desenvolvimento...)
----
 classDiagram
   class Course {
     id String
@@ -60,82 +64,76 @@ classDiagram
   User <|-- Administrator
 ```
 
-This is an official starter Turborepo.
+### Diagrama de atividades 
 
-## Using this example
+**Fluxo geral da jornada do usuário**
 
-Run the following command:
-
-```sh
-npx create-turbo@latest
+```mermaid
+flowchart
+  id1([Inicio])
+  id1-->id2(Lista de Cursos)
+  id2-->id3{Opcional}
+  id3-->id4(Entrar com conta do Google)
+  id2-->id5{Autenticado}
+  id5-->id16(Ação)
+  id16-->id7{Moderador<br>Admin}
+  id5-->id6(Adicionar Curso)  
+  id7-->id8(Publicar Curso)
+  id7-->id9(Recusar Curso)
+  id7-->id10(Remover Curso)
+  id16-->id11(Favoritar Curso)
+  id16-->id12(Avaliar Curso)
+  id5-->id13{Admin}
+  id13-->id19(Lista de Usuários)
+  id19-->id14(Adicionar Moderador)
+  id19-->id18(Remover Moderador)
+  id5-->id15(Conta)
+  id15-->17(Sair)
 ```
 
-## What's inside?
+### Diagrama de sequencia
 
-This Turborepo includes the following packages/apps:
+**Publicar Video**
 
-### Apps and Packages
+```mermaid
+sequenceDiagram
+autonumber
+actor user as Moderador<br>Administrador
+participant front as FRONT-END
+participant back as BACK-END
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+activate user
+user->>front: (Page: Listar Cursos)<br>Filtrar cursos por status = PENDENTE
+activate front
+front->>back: Consultar cursos pendentes
+activate back
+back-->>front: [cursos]
+deactivate back
+front-->>user: Listar Cursos
+user->>front: Clicar no botão Ações
+front->>front: Modal Ações
+activate front
+user->>front: Clicar no botão Publicar
+front->>back: Course.publish()
+activate back
+back-->>front: return 204
+deactivate back
+front-->> user: return success
+deactivate front
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm build
-```
-
-### Develop
-
-To develop all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm dev
+deactivate front
+deactivate user
 ```
 
-### Remote Caching
+### Diagrama de estado
 
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+**Status do Curso**
 
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
-
+```mermaid
+stateDiagram
+  [*] --> PENDING: Curso adicionado
+  PENDING --> PUBLISHED: Moderador aprovou o curso
+  PENDING --> REFUSED: Moderador reprovou o curso
+  PUBLISHED --> [*]: Curso disponível na Lista
+  REFUSED --> [*]
 ```
-cd my-turborepo
-npx turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-npx turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
