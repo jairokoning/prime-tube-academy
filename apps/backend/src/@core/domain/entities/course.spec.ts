@@ -8,9 +8,8 @@ describe('Course Units Test', () => {
       url: 'https://www.youtube.com/watch?v=XTmvAj5OSQI&ab_channel=FullCycle',
       year: 2022,
       channel: 'FullCycle',
-      status: 'PENDING',
-      tags: ['745a1869-9c90-4ed9-971e-a738e41adeb4'],
-      added_by: 'John Doe',
+      tags: [{ tagId: '745a1869-9c90-4ed9-971e-a738e41adeb4', label: 'nest' }],
+      added_by: '745a1869-9c90-4ed9-971e-a738e41adeb4',
     };
     const course = Course.add(
       input.title,
@@ -18,7 +17,6 @@ describe('Course Units Test', () => {
       input.url,
       input.year,
       input.channel,
-      input.status,
       input.tags,
       input.added_by,
     );
