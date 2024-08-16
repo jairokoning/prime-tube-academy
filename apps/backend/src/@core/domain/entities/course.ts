@@ -1,16 +1,7 @@
-export default class Course {
-  // private courseId: string;
-  // private title: string;
-  // private description: string;
-  // private url: string;
-  // private year: number;
-  // private channel: string;
-  // private status: string;
-  // private tags: string[];
-  // private added_by: string;
-  // private created_at: Date;
+import Tag from './tag';
 
-  private constructor(
+export default class Course {
+  constructor(
     readonly courseId: string,
     readonly title: string,
     readonly description: string,
@@ -18,7 +9,7 @@ export default class Course {
     readonly year: number,
     readonly channel: string,
     readonly status: string,
-    readonly tags: string[],
+    readonly tags: Tag[],
     readonly added_by: string,
     readonly created_at?: Date,
   ) {
@@ -40,8 +31,7 @@ export default class Course {
     url: string,
     year: number,
     channel: string,
-    status: string,
-    tags: string[],
+    tags: Tag[],
     added_by: string,
   ) {
     const courseId = crypto.randomUUID();
@@ -52,9 +42,13 @@ export default class Course {
       url,
       year,
       channel,
-      status,
+      'PENDING',
       tags,
       added_by,
     );
+  }
+
+  get tagIds(): string[] {
+    return this.tags.map((tag) => tag.tagId);
   }
 }
