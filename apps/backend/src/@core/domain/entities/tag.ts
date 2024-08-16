@@ -1,5 +1,5 @@
 export default class Tag {
-  private constructor(
+  constructor(
     readonly tagId: string,
     readonly label: string,
   ) {
