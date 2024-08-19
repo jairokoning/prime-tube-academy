@@ -1,0 +1,79 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum RoleEnum {
+  CONSUMER
+  MODERATOR
+  ADMINISTRATOR
+}
+
+enum StatusEnum {
+  PENDING
+  PUBLISHED
+  REFUSED
+}
+
+model User {
+  userId    String   @id @default(uuid()) @map("user_id")
+  name      String
+  email     String
+  role      RoleEnum
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  Course Course[]
+
+  @@map("users")
+}
+
+model Course {
+  courseId    String     @id @default(uuid()) @map("course_id")
+  title       String
+  description String
+  url         String
+  status      StatusEnum
+  year        Int
+  channel     String
+  userId      String     @map("user_id")
+  createdAt   DateTime   @default(now()) @map("created_at")
+  updatedAt   DateTime   @updatedAt @map("updated_at")
+
+  addedBy    User        @relation(fields: [userId], references: [userId])
+  tags       Tag[]
+  courseTags CourseTag[]
+
+  @@map("courses")
+}
+
+model Tag {
+  tagId String @id @default(uuid()) @map("tag_id")
+  label String
+
+  courses    Course[]
+  tagCourses CourseTag[]
+
+  @@map("tags")
+}
+
+model CourseTag {
+  courseId String @map("course_id")
+  tagId    String @map("tag_id")
+
+  course Course @relation(fields: [courseId], references: [courseId])
+  tag    Tag    @relation(fields: [tagId], references: [tagId])
+
+  @@id([courseId, tagId])
+  @@map("courses_tags")
+}
