@@ -1,6 +1,8 @@
+import CourseStatus, { PendingStatus } from './course-status';
 import Tag from './tag';
 
 export default class Course {
+  status: CourseStatus;
   constructor(
     readonly courseId: string,
     readonly title: string,
@@ -8,9 +10,8 @@ export default class Course {
     readonly url: string,
     readonly year: number,
     readonly channel: string,
-    readonly status: string,
     readonly tags: Tag[],
-    readonly added_by: string,
+    readonly userId: string,
     readonly created_at?: Date,
   ) {
     this.courseId = courseId;
@@ -19,9 +20,9 @@ export default class Course {
     this.url = url;
     this.year = year;
     this.channel = channel;
-    this.status = status;
+    this.status = new PendingStatus(this);
     this.tags = tags;
-    this.added_by = added_by;
+    this.userId = userId;
     this.created_at = created_at;
   }
 
@@ -32,7 +33,7 @@ export default class Course {
     year: number,
     channel: string,
     tags: Tag[],
-    added_by: string,
+    userId: string,
   ) {
     const courseId = crypto.randomUUID();
     return new Course(
@@ -42,13 +43,16 @@ export default class Course {
       url,
       year,
       channel,
-      'PENDING',
       tags,
-      added_by,
+      userId,
     );
   }
 
   get tagIds(): string[] {
     return this.tags.map((tag) => tag.tagId);
+  }
+
+  getStatus(): string {
+    return this.status.value;
   }
 }
