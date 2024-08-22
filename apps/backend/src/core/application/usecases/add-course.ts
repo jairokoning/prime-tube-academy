@@ -10,7 +10,7 @@ interface AddCourseDTO {
   year: number;
   channel: string;
   tagIds: string[];
-  added_by: string;
+  userId: string;
 }
 
 export default class AddCourse {
@@ -25,7 +25,7 @@ export default class AddCourse {
     year,
     channel,
     tagIds,
-    added_by,
+    userId,
   }: AddCourseDTO): Promise<Output> {
     const repoTags = await this.tagRepository.getByIds(tagIds);
     const tags = repoTags.map((tag) => new Tag(tag.tagId, tag.label));
@@ -36,7 +36,7 @@ export default class AddCourse {
       year,
       channel,
       tags,
-      added_by,
+      userId,
     );
     await this.courseRepository.save(course);
     return { courseId: course.courseId };
