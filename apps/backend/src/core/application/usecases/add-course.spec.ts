@@ -3,6 +3,7 @@ import Tag from '../../domain/entities/tag';
 import CourseRepository from '../repositories/CourseRepository';
 import AddCourse from './add-course';
 import TagRepository from '../repositories/TagRepository';
+import CourseStatus from 'src/core/domain/entities/course-status';
 
 describe('Add Course | Integration Test', () => {
   const courses = new Map<
@@ -14,9 +15,9 @@ describe('Add Course | Integration Test', () => {
       url: string;
       year: number;
       channel: string;
-      status: string;
+      status: CourseStatus;
       tagIds: string[];
-      added_by: string;
+      userId: string;
     }
   >();
   const tags: Tag[] = [
@@ -37,7 +38,7 @@ describe('Add Course | Integration Test', () => {
       year: 2024,
       channel: 'Youtube',
       tagIds: ['2', '6'],
-      added_by: '745a1869-9c90-4ed9-971e-a738e41adeb4',
+      userId: '745a1869-9c90-4ed9-971e-a738e41adeb4',
     };
     const courseRepository: CourseRepository = {
       async save(course: Course): Promise<void> {
@@ -50,7 +51,7 @@ describe('Add Course | Integration Test', () => {
           channel: course.channel,
           status: course.status,
           tagIds: course.tagIds,
-          added_by: course.added_by,
+          userId: course.userId,
         });
       },
       getById: async function (courseId: string): Promise<Course> {
@@ -65,9 +66,8 @@ describe('Add Course | Integration Test', () => {
           courseData.url,
           courseData.year,
           courseData.channel,
-          courseData.status,
           tagsData,
-          courseData.added_by,
+          courseData.userId,
         );
       },
     };
@@ -83,5 +83,6 @@ describe('Add Course | Integration Test', () => {
     expect(output.title).toEqual(input.title);
     expect(output.url).toEqual(input.url);
     expect(output.tags).toMatchObject([{ tagId: '2' }, { tagId: '6' }]);
+    expect(output.status.value).toEqual('PENDING');
   });
 });
