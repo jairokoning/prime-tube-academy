@@ -50,9 +50,9 @@ model Course {
   createdAt   DateTime   @default(now()) @map("created_at")
   updatedAt   DateTime   @updatedAt @map("updated_at")
 
-  addedBy    User        @relation(fields: [userId], references: [userId])
-  tags       Tag[]
-  courseTags CourseTag[]
+  addedBy User          @relation(fields: [userId], references: [userId])
+  //tags       Tag[]
+  tags    TagsOnCourses[]
 
   @@map("courses")
 }
@@ -61,19 +61,29 @@ model Tag {
   tagId String @id @default(uuid()) @map("tag_id")
   label String
 
-  courses    Course[]
-  tagCourses CourseTag[]
+  //courses    Course[]
+  courses TagsOnCourses[]
 
   @@map("tags")
 }
 
-model CourseTag {
-  courseId String @map("course_id")
-  tagId    String @map("tag_id")
+// model CourseToTagxx {
+//   courseId String @map("course_id")
+//   tagId    String @map("tag_id")
 
-  course Course @relation(fields: [courseId], references: [courseId])
-  tag    Tag    @relation(fields: [tagId], references: [tagId])
+//   course Course @relation(fields: [courseId], references: [courseId])
+//   tag    Tag    @relation(fields: [tagId], references: [tagId])
+
+//   @@id([courseId, tagId])
+//   @@map("courses_to_tags")
+// }
+
+model TagsOnCourses {
+  course   Course @relation(fields: [courseId], references: [courseId])
+  courseId String @map("course_id") // relation scalar field (used in the `@relation` attribute above)
+  tag      Tag    @relation(fields: [tagId], references: [tagId])
+  tagId    String @map("tag_id") // relation scalar field (used in the `@relation` attribute above)
 
   @@id([courseId, tagId])
-  @@map("courses_tags")
+  @@map("tags_on_courses")
 }

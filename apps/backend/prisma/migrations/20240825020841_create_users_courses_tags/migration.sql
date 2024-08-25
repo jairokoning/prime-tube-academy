@@ -41,36 +41,18 @@ CREATE TABLE "tags" (
 );
 
 -- CreateTable
-CREATE TABLE "courses_tags" (
+CREATE TABLE "tags_on_courses" (
     "course_id" TEXT NOT NULL,
     "tag_id" TEXT NOT NULL,
 
-    CONSTRAINT "courses_tags_pkey" PRIMARY KEY ("course_id","tag_id")
+    CONSTRAINT "tags_on_courses_pkey" PRIMARY KEY ("course_id","tag_id")
 );
-
--- CreateTable
-CREATE TABLE "_CourseToTag" (
-    "A" TEXT NOT NULL,
-    "B" TEXT NOT NULL
-);
-
--- CreateIndex
-CREATE UNIQUE INDEX "_CourseToTag_AB_unique" ON "_CourseToTag"("A", "B");
-
--- CreateIndex
-CREATE INDEX "_CourseToTag_B_index" ON "_CourseToTag"("B");
 
 -- AddForeignKey
 ALTER TABLE "courses" ADD CONSTRAINT "courses_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("user_id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "courses_tags" ADD CONSTRAINT "courses_tags_course_id_fkey" FOREIGN KEY ("course_id") REFERENCES "courses"("course_id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "tags_on_courses" ADD CONSTRAINT "tags_on_courses_course_id_fkey" FOREIGN KEY ("course_id") REFERENCES "courses"("course_id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "courses_tags" ADD CONSTRAINT "courses_tags_tag_id_fkey" FOREIGN KEY ("tag_id") REFERENCES "tags"("tag_id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "_CourseToTag" ADD CONSTRAINT "_CourseToTag_A_fkey" FOREIGN KEY ("A") REFERENCES "courses"("course_id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "_CourseToTag" ADD CONSTRAINT "_CourseToTag_B_fkey" FOREIGN KEY ("B") REFERENCES "tags"("tag_id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "tags_on_courses" ADD CONSTRAINT "tags_on_courses_tag_id_fkey" FOREIGN KEY ("tag_id") REFERENCES "tags"("tag_id") ON DELETE RESTRICT ON UPDATE CASCADE;
