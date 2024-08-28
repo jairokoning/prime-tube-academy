@@ -1,10 +1,8 @@
-import { Injectable } from '@nestjs/common';
 import CourseRepository from 'src/core/application/repositories/CourseRepository';
 import Course from '../../core/domain/entities/course';
 import { PrismaService } from '../prisma/prisma.service';
 import Tag from '../../core/domain/entities/tag';
 
-@Injectable()
 export class CoursePrismaRepository implements CourseRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
@@ -20,15 +18,51 @@ export class CoursePrismaRepository implements CourseRepository {
         channel: course.channel,
         userId: course.userId,
         tags: {
-          connect: course.tagIds.map((tagId) => ({ tagId })),
+          create: course.tags.map((tag) => ({
+            tag: {
+              connect: {
+                tagId: tag.tagId,
+              },
+            },
+            // connect: {
+            //   courseId_tagId: { courseId: course.courseId, tagId: tag.tagId },
+            // }
+            // courseId_tagId: { courseId: course.courseId, tagId: tag.tagId },
+          })),
+
+          // [
+          //   {
+          //     assignedBy: 'Bob',
+          //     assignedAt: new Date(),
+          //     category: {
+          //       connect: {
+          //         id: 9,
+          //       },
+          //     },
+          //   },
+          //   {
+          //     assignedBy: 'Bob',
+          //     assignedAt: new Date(),
+          //     category: {
+          //       connect: {
+          //         id: 22,
+          //       },
+          //     },
+          //   },
+          // ],
         },
+        // tags: {
+        //   connect: course.tags.map((tag) => ({
+        //     courseId_tagId: { courseId: course.courseId, tagId: tag.tagId },
+        //   })),
+        // },
       },
     });
   }
   async getById(courseId: string): Promise<Course> {
     const courseData = await this.prismaService.course.findUnique({
       where: { courseId },
-      include: { tags: true },
+      include: { tags: { include: { tag: true } } },
     });
     return new Course(
       courseData.courseId,
@@ -37,7 +71,7 @@ export class CoursePrismaRepository implements CourseRepository {
       courseData.url,
       courseData.year,
       courseData.channel,
-      courseData.tags.map((tag) => new Tag(tag.tagId, tag.label)),
+      courseData.tags.map((tag) => new Tag(tag.tag.tagId, tag.tag.label)),
       courseData.userId,
     );
   }
