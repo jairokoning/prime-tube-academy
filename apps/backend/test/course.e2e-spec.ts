@@ -17,9 +17,10 @@ describe('CourseController (e2e)', () => {
     prismaService = moduleFixture.get<PrismaService>(PrismaService);
     await app.init();
 
+    await prismaService.tagsOnCourses.deleteMany({});
+    await prismaService.course.deleteMany({});
     await prismaService.tag.deleteMany({});
     await prismaService.user.deleteMany({});
-    await prismaService.course.deleteMany({});
   });
 
   it('/courses (POST)', async () => {
